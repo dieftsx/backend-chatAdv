@@ -1,13 +1,11 @@
-const { Configuration, OpenAIApi } = require("openai");
-const Law = require("../models/Law");
+import { Configuration, OpenAIApi } from "openai";
 
 const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY,
+  apiKey: process.env.OPENAI_API_KEY || "",
 });
 const openai = new OpenAIApi(configuration);
 
-async function processMessage(message) {
-  // Use GPT-3 para processar a mensagem
+export async function processMessage(message: string): Promise<string> {
   const response = await openai.createCompletion({
     model: "text-davinci-003",
     prompt: message,
@@ -16,5 +14,3 @@ async function processMessage(message) {
 
   return response.data.choices[0].text.trim();
 }
-
-module.exports = { processMessage };

@@ -1,10 +1,11 @@
-const express = require("express");
+import express, { Request, Response } from "express";
+import { processMessage } from "../services/chatService";
+import twilio from "twilio";
+
 const router = express.Router();
-const { processMessage } = require("../services/chatService");
-const twilio = require("twilio");
 const MessagingResponse = twilio.twiml.MessagingResponse;
 
-router.post("/", async (req, res) => {
+router.post("/", async (req: Request, res: Response) => {
   const { Body, From } = req.body;
 
   const responseMessage = await processMessage(Body);
@@ -16,4 +17,4 @@ router.post("/", async (req, res) => {
   res.end(twiml.toString());
 });
 
-module.exports = router;
+export default router;
